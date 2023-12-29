@@ -10,30 +10,31 @@ def to_numpy(tensor):
 # session = ort.InferenceSession("checkpoint/45.onnx")
 
 # fire detection
-# session = ort.InferenceSession("checkpoint/45.onnx", providers=["CPUExecutionProvider"])
-# session = ort.InferenceSession("checkpoint/45.onnx", providers=["CUDAExecutionProvider"])
-
-
-# License Plate Detection
-session = ort.InferenceSession("checkpoint/lpd.onnx", providers=["CPUExecutionProvider"])
-# session = ort.InferenceSession("checkpoint/lpd.onnx", providers=["CUDAExecutionProvider"])
+# session = ort.InferenceSession("../model/fire_detection/ONNX/45.onnx", providers=["CPUExecutionProvider"])
+# session = ort.InferenceSession("../model/fire_detection/ONNX/45.onnx", providers=["CUDAExecutionProvider"])
 
 # Vehicle Detection
-# session = ort.InferenceSession("checkpoint/vd.onnx", providers=["CPUExecutionProvider"])
-# session = ort.InferenceSession("checkpoint/vd.onnx", providers=["CUDAExecutionProvider"])
+# session = ort.InferenceSession("../model/230914_vd/ONNX/vd.onnx", providers=["CPUExecutionProvider"])
+session = ort.InferenceSession("../model/230914_vd/ONNX/vd.onnx", providers=["CUDAExecutionProvider"])
+
+# License Plate Detection
+# session = ort.InferenceSession("../model/230911_lpd/ONNX/lpd.onnx", providers=["CPUExecutionProvider"])
+# session = ort.InferenceSession("../model/230911_lpd/ONNX/lpd.onnx", providers=["CUDAExecutionProvider"])
 
 # License Plate Recognition
-# session = ort.InferenceSession("checkpoint/lpr.onnx", providers=["CPUExecutionProvider"])
-# session = ort.InferenceSession("checkpoint/lpr.onnx", providers=["CUDAExecutionProvider"])
+# session = ort.InferenceSession("../model/230918_lpr/ONNX/lpr.onnx", providers=["CPUExecutionProvider"])
+# session = ort.InferenceSession("../model/230918_lpr/ONNX/lpr.onnx", providers=["CUDAExecutionProvider"])
 
 
-# input data
-input_data = np.random.randn(1, 3, 416, 416).astype(np.float32)
-input_name = session.get_inputs()[0].name
 
 # run model
 sum = 0
 for i in range(10000):
+
+    # input data
+    input_data = np.random.randn(1, 3, 416, 416).astype(np.float32)
+    input_name = session.get_inputs()[0].name
+
     start = time.time()
     results = session.run(None, {input_name: input_data})
     end = time.time()
